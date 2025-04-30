@@ -1,5 +1,12 @@
-function App() {
-  return <></>
-}
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
+import { Blog } from './Blog'
 
-export default App
+const queryCLient = new QueryClient()
+
+export function App() {
+  return (
+    <QueryClientProvider client={queryCLient}>
+      <Blog />
+    </QueryClientProvider>
+  )
+}

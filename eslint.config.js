@@ -15,12 +15,6 @@ export default defineConfig([
   },
   pluginReact.configs.flat.recommended,
   {
-    files: ['**/*.{js,mjs,cjs,jsx}'],
-    rules: {
-      'react/react-in-jsx-scope': 'off',
-    },
-  },
-  {
     ignores: ['/dist', 'vite.config.js'],
   },
   {
@@ -28,6 +22,13 @@ export default defineConfig([
       react: {
         version: 'detect',
       },
+    },
+  },
+  {
+    files: ['**/*.{js,mjs,cjs,jsx}'],
+    rules: {
+      'react/react-in-jsx-scope': 'off',
+      'react/prop-types': 'off',
     },
   },
 ])
