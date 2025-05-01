@@ -34,7 +34,7 @@ jobs:
           USERNAME: ${{ secrets.ALIYUN_ACCOUNT }}
           KEY: ${{ secrets.ALIYUN_CREDENTIALS }}
         run: |
-          echo $KEY > alicloud_key.pem
+          echo "$KEY" > alicloud_key.pem
           chmod 600 alicloud_key.pem
           ssh -T -i alicloud_key.pem $USERNAME@$HOST << 'EOF'
             docker pull "${{secrets.DOCKER_USERNAME}}/blog-frontend:latest"
