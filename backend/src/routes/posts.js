@@ -45,7 +45,7 @@ export function postsRoutes(app) {
       return res.json(post)
     } catch (err) {
       console.error(`'创建文章失败：${err}`)
-      return res.status.status(500).end()
+      return res.status(500).end()
     }
   })
   app.patch('/api/v1/posts/:id', async (req, res) => {
