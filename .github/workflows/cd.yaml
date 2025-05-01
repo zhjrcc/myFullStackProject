@@ -1,0 +1,46 @@
+name: Deploy Blog Application
+on:
+  push:
+    branches:
+      - main
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Login to Docker Hub
+        uses: docker/login-action@v2
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_TOKEN }}
+      - name: Build and push backend image
+        uses: docker/build-push-action@v4
+        with:
+          context: ./backend
+          file: ./backend/Dockerfile
+          push: true
+          tags: ${{ secrets.DOCKER_USERNAME }}/blog-backend:latest
+      - name: Build and push frontend image
+        uses: docker/build-push-action@v4
+        with:
+          context: .
+          file: ./Dockerfile
+          push: true
+          tags: ${{ secrets.DOCKER_USERNAME }}/blog-frontend:latest
+          build-args: VITE_BACKEND_URL=${{ secrets.VITE_BACKEND_URL}}
+      - name: Deploy fullstack
+        env:
+          HOST: ${{ secrets.ALIYUN_HOST }}
+          USERNAME: ${{ secrets.ALIYUN_ACCOUNT }}
+          KEY: ${{ secrets.ALIYUN_CREDENTIALS }}
+        run: |
+          echo "$KEY" > alicloud_key.pem
+          chmod 600 alicloud_key.pem
+          ssh -T -i alicloud_key.pem $USERNAME@$HOST << 'EOF'
+            docker pull "${{secrets.DOCKER_USERNAME}}/blog-frontend:latest"
+            docker pull "${{secrets.DOCKER_USERNAME}}/blog-backend:latest"
+            docker stop blog-frontend blog-backend
+            docker system prune -f
+            docker run -d --name blog-backend -e PORT=3000 -e DATABASE_URL="${{ secrets.MONGODB_DATABASE_URL}}" -p 3000:3000 "${{secrets.DOCKER_USERNAME}}/blog-backend"
+            docker run -d --name blog-frontend -p 80:80 "${{secrets.DOCKER_USERNAME}}/blog-frontend"
+          EOF

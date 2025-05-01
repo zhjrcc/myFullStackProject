@@ -1,5 +1,7 @@
 # FullStack
 
+8.138.180.252
+
 # mongodb数据库字符串：
 
 mongodb+srv://zjrhello:MIYn2klyTk2ERgOd@blog.lihyk.mongodb.net/myBlog?retryWrites=true&w=majority
@@ -141,3 +143,6 @@ docker tag：为已经存在的镜像创建新的名称和标签，不会创建�
   - 删除不再需要的测试代码。
 
 通过使用这些规范的提交前缀，可以使团队成员更清晰地了解每次提交的目的和影响，提高代码管理和协作的效率。
+
+命令删除本地保存的对应服务器的主机密钥记录
+ssh-keygen -R <server_ip>
