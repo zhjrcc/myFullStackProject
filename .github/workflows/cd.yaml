@@ -36,7 +36,7 @@ jobs:
         run: |
           echo "$KEY" > alicloud_key.pem
           chmod 600 alicloud_key.pem
-          ssh -o StrictHostKeyChecking=no -T -i alicloud_key.pem $USERNAME@$HOST << 'EOF'
+          ssh -T -i alicloud_key.pem $USERNAME@$HOST << 'EOF'
             docker pull "${{secrets.DOCKER_USERNAME}}/blog-frontend:latest"
             docker pull "${{secrets.DOCKER_USERNAME}}/blog-backend:latest"
             docker stop blog-frontend blog-backend
