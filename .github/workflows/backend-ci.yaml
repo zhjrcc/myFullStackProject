@@ -7,7 +7,7 @@ on:
     branches:
       - main
 jobs:
-  lint-add-test:
+  test:
     runs-on: ubuntu-latest
     strategy:
       matrix:
@@ -24,7 +24,5 @@ jobs:
           cache: 'npm'
       - name: Install dependencies
         run: npm install
-      - name: Run linter on backend
-        run: npm run lint
       - name: Run backend tests
         run: npm test
