@@ -1,3 +1,4 @@
+import { User } from './User'
 export function Post({ title, contents, author }) {
   return (
     <article>
@@ -6,7 +7,8 @@ export function Post({ title, contents, author }) {
       {author && (
         <em>
           <br />
-          作者：<strong>{author}</strong>
+          作者：
+          <User id={author} />
         </em>
       )}
     </article>
